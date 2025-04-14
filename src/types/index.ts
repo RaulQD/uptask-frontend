@@ -1,4 +1,4 @@
-import { z } from 'zod'
+import { z } from 'zod'
 
 /** Auth & Users */
 const authSchema = z.object({
@@ -42,7 +42,7 @@ export type Note = z.infer<typeof noteSchema>
 export type NoteFormData = Pick<Note, 'content'>
 
 /** Tasks */
-export const taskStatusSchema = z.enum(["pending", "onHold", "inProgress", "underReview", "completed" ])
+export const taskStatusSchema = z.enum(["pending", "onHold", "inProgress", "underReview", "completed"])
 export type TaskStatus = z.infer<typeof taskStatusSchema>
 
 export const taskSchema = z.object({
@@ -80,9 +80,9 @@ export const projectSchema = z.object({
     projectName: z.string(),
     clientName: z.string(),
     description: z.string(),
-    manager: z.string(userSchema.pick({_id: true})),
+    manager: z.string(userSchema.pick({ _id: true })),
     tasks: z.array(taskProjectSchema),
-    team: z.array(z.string(userSchema.pick({_id: true})))
+    team: z.array(z.string(userSchema.pick({ _id: true })))
 })
 export const dashboardProjectSchema = z.array(
     projectSchema.pick({
@@ -99,7 +99,7 @@ export const editProjectSchema = projectSchema.pick({
     description: true,
 })
 export type Project = z.infer<typeof projectSchema>
-export type ProjectFormData = Pick<Project, 'clientName' | 'projectName' | 'description' >
+export type ProjectFormData = Pick<Project, 'clientName' | 'projectName' | 'description'>
 
 /** Team */
 const teamMemberSchema = userSchema.pick({
