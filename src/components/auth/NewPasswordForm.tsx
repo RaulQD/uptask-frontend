@@ -57,14 +57,14 @@ export default function NewPasswordForm({ token }: NewPasswordFormProps) {
 
                     <input
                         type='password'
-                        placeholder='Password de Registro'
+                        placeholder='Contraseña de Registro'
                         className='w-full p-3  border-gray-300 border'
                         {...register('password', {
-                            required: 'El Password es obligatorio',
+                            required: 'La contraseña es obligatorio',
                             minLength: {
                                 value: 8,
                                 message:
-                                    'El Password debe ser mínimo de 8 caracteres',
+                                    'la contraseña debe ser mínimo de 8 caracteres',
                             },
                         })}
                     />
@@ -84,10 +84,10 @@ export default function NewPasswordForm({ token }: NewPasswordFormProps) {
                         placeholder='Repite Password de Registro'
                         className='w-full p-3  border-gray-300 border'
                         {...register('password_confirmation', {
-                            required: 'Repetir Password es obligatorio',
+                            required: 'repetir contraseña es obligatorio',
                             validate: (value) =>
                                 value === password ||
-                                'Los Passwords no son iguales',
+                                'Las contraseñas no son iguales',
                         })}
                     />
 

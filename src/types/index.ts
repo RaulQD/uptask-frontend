@@ -40,10 +40,34 @@ const noteSchema = z.object({
 })
 export type Note = z.infer<typeof noteSchema>
 export type NoteFormData = Pick<Note, 'content'>
+export type editNoteFormData = Pick<Note, 'content'>
 
 /** Tasks */
 export const taskStatusSchema = z.enum(["pending", "onHold", "inProgress", "underReview", "completed"])
 export type TaskStatus = z.infer<typeof taskStatusSchema>
+
+export const subTaskSchema = z.object({
+    _id: z.string(),
+    name: z.string(),
+    completed: z.boolean(),
+    task: z.string(),
+    createdAt: z.string(),
+    updatedAt: z.string()
+})
+export const subTaskListSchema = z.array(
+    subTaskSchema.pick({
+        _id: true,
+        name: true,
+        completed: true,
+        task: true,
+        createdAt: true,
+        updatedAt:true
+    })
+)
+export type SubTasks = z.infer<typeof subTaskListSchema>
+export type SubTask = z.infer<typeof subTaskSchema>
+export type SubTaskFormData = Pick<SubTask, 'name'>
+export type SubTaskCompleted = Pick<SubTask, 'completed'>
 
 export const taskSchema = z.object({
     _id: z.string(),
@@ -59,6 +83,7 @@ export const taskSchema = z.object({
     notes: z.array(noteSchema.extend({
         createdBy: userSchema
     })),
+    // subtasks: z.array(subTaskSchema),
     createdAt: z.string(),
     updatedAt: z.string()
 })

@@ -1,70 +1,99 @@
-import { NoteFormData } from '@/types/index'
-import { useForm } from 'react-hook-form'
-import ErrorMessage from '../ErrorMessage'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { createNote } from '@/api/NoteAPI'
-import { toast } from 'react-toastify'
-import { useLocation, useParams } from 'react-router-dom'
+import { NoteFormData } from '@/types/index';
+import { useForm } from 'react-hook-form';
+import ErrorMessage from '../ErrorMessage';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { createNote } from '@/api/NoteAPI';
+import { toast } from 'react-toastify';
+import { useLocation, useParams } from 'react-router-dom';
+import { useState } from 'react';
+import { ClipboardDocumentListIcon } from '@heroicons/react/24/outline';
 
 export default function AddNoteForm() {
+    const [isEditing, setIsEditing] = useState(false);
 
-    const params = useParams()
-    const location = useLocation()
+    const params = useParams();
+    const location = useLocation();
 
-    const queryParams = new URLSearchParams(location.search)
+    const queryParams = new URLSearchParams(location.search);
 
-    const projectId = params.projectId!
-    const taskId = queryParams.get('viewTask')!
+    const projectId = params.projectId!;
+    const taskId = queryParams.get('viewTask')!;
 
-    const initialValues : NoteFormData = {
-        content: ''
-    }
+    const initialValues: NoteFormData = {
+        content: '',
+    };
 
-    const { register, handleSubmit, reset, formState: {errors} } = useForm({defaultValues: initialValues})
+    const {
+        register,
+        handleSubmit,
+        reset,
+        formState: { errors },
+    } = useForm({ defaultValues: initialValues });
 
-    const queryClient = useQueryClient()
-    const { mutate } = useMutation({
+    const queryClient = useQueryClient();
+    const { mutate } = useMutation({
         mutationFn: createNote,
         onError: (error) => {
-            toast.error(error.message)
+            toast.error(error.message);
         },
         onSuccess: (data) => {
-            toast.success(data)
-            queryClient.invalidateQueries({queryKey: ['task', taskId]})
-        }
-    })
+            toast.success(data);
+            queryClient.invalidateQueries({ queryKey: ['task', taskId] });
+        },
+    });
     const handleAddNote = (formData: NoteFormData) => {
-        mutate({projectId, taskId, formData})
-        reset()
-    }
+        mutate({ projectId, taskId, formData });
+        setIsEditing(false);
+        reset();
+    };
 
     return (
-        <form
-            onSubmit={handleSubmit(handleAddNote)}
-            className="space-y-3"
-            noValidate
-        >
-            <div className="flex flex-col gap-2">
-                <label className="font-bold" htmlFor="content">Crear Nota</label>
-                <input
-                    id="content"
-                    type="text"
-                    placeholder="Contenido de la nota"
-                    className="w-full p-3 border border-gray-300"
-                    {...register('content', {
-                        required: 'El Contenido de la nota es obligatorio'
-                    })}
-                />
-                {errors.content && (
-                    <ErrorMessage>{errors.content.message}</ErrorMessage>
-                )}
-            </div>
-
-            <input
-                type="submit"
-                value='Crear Nota'
-                className=" bg-fuchsia-600 hover:bg-fuchsia-700 w-full p-2 text-white font-black cursor-pointer"
-            />
-        </form>
-    )
+        <div className='space-y-3'>
+            <h3 className='text-xl font-medium flex items-center gap-2 text-slate-600'>
+                <ClipboardDocumentListIcon className='w-6 h-6' />
+                Notas
+            </h3>
+            {!isEditing ? (
+                <div
+                    className='bg-white text-black p-3 rounded-md border-black shadow cursor-pointer hover:bg-gray-50'
+                    onClick={() => setIsEditing(true)}>
+                    <p className='text-sm text-gray-400'>
+                        Agregar un comentario o una nota a la tarea.
+                    </p>
+                </div>
+            ) : (
+                <form
+                    onSubmit={handleSubmit(handleAddNote)}
+                    className='space-y-3'
+                    noValidate>
+                    <textarea
+                        id='content'
+                        placeholder='Contenido de la nota'
+                        className='w-full border border-gray-300 rounded-md text-sm resize-none' rows={3}
+                        {...register('content', {
+                            required: 'El Contenido de la nota es obligatorio',
+                        })} />
+                    {errors.content && (
+                        <ErrorMessage>{errors.content.message}</ErrorMessage>
+                    )}
+                    <div className='flex gap-2'>
+                        <button
+                            type='submit'
+                            className='text-sm bg-fuchsia-600 hover:bg-purple-700 rounded-md px-4 py-2 text-white'>
+                            Guardar
+                        </button>
+                        <button
+                            type='button'
+                            onClick={() => {
+                                setIsEditing(false);
+                                reset();
+                            }}
+                            className='text-sm bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600'>
+                            Cancelar
+                        </button>
+                    </div>
+                </form>
+            )}
+        </div>
+    );
 }

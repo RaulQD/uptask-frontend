@@ -5,10 +5,10 @@ import { ToastContainer } from 'react-toastify';
 export default function AuthLayout() {
     return (
         <>
-            <div className='bg-gray-800 min-h-creen'>
-                <div className='py-8 mx-auto w-[450px]'>
+            <div className='bg-gray-800 '>
+                <div className='py-10 mx-auto w-[450px]'>
                     <Logo />
-                    <div className='mt-5'>
+                    <div className='mt-[60px]'>
                         <Outlet />
                     </div>
                 </div>

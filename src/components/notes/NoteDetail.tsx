@@ -1,58 +1,96 @@
-import { deleteNote } from "@/api/NoteAPI"
-import { useAuth } from "@/hooks/useAuth"
-import { Note } from "@/types/index"
-import { formatDate } from "@/utils/utils"
-import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { useMemo } from "react"
-import { useLocation, useParams } from "react-router-dom"
-import { toast } from "react-toastify"
-
+import { deleteNote } from '@/api/NoteAPI';
+import { useAuth } from '@/hooks/useAuth';
+import { Note } from '@/types/index';
+import { formatDate } from '@/utils/utils';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMemo, useState } from 'react';
+import { useLocation, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { PencilSquareIcon } from '@heroicons/react/24/outline';
+import EditNoteForm from './EditNoteForm';
+import DeletePopover from '../DeletePopover';
 
 type NoteDetailProps = {
-    note: Note
-}
+    note: Note;
+};
 
 export default function NoteDetail({ note }: NoteDetailProps) {
+    const { data, isLoading } = useAuth();
+    const [isEditing, setIsEditing] = useState(false);
+    const canDelete = useMemo(
+        () => data?._id === note.createdBy._id,
+        [data, note.createdBy._id]
+    );
+    const canEdit = useMemo(
+        () => data?._id === note.createdBy._id,
+        [data, note.createdBy._id]
+    );
+    const params = useParams();
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
 
-    const { data, isLoading } = useAuth()
-    const canDelete = useMemo(() => data?._id === note.createdBy._id, [data])
-    const params = useParams()
-    const location = useLocation()
-    const queryParams = new URLSearchParams(location.search)
-    
-    const projectId = params.projectId!
-    const taskId = queryParams.get('viewTask')!
+    const projectId = params.projectId!;
+    const taskId = queryParams.get('viewTask')!;
 
-    const queryClient = useQueryClient()
-    const { mutate } = useMutation({
+    const queryClient = useQueryClient();
+    const { mutate } = useMutation({
         mutationFn: deleteNote,
         onError: (error) => toast.error(error.message),
         onSuccess: (data) => {
-            toast.success(data)
-            queryClient.invalidateQueries({queryKey: ['task', taskId]})
-        }
-    })
+            toast.success(data);
+            queryClient.invalidateQueries({ queryKey: ['task', taskId] });
+        },
+    });
 
-    if (isLoading) return 'Cargando...'
+    const handleDeleteNote = () => {
+        mutate({ projectId, taskId, noteId: note._id });
+    };
+    if (isLoading) return 'Cargando...';
 
     return (
-        <div className="p-3 flex justify-between items-center">
-            <div>
-                <p>
-                    {note.content} por: <span className="font-bold">{note.createdBy.name}</span>
+        <div className='flex justify-between items-center py-2'>
+            <div className='flex flex-col gap-2 w-full'>
+                <p className='font-semibold'>
+                    {note.createdBy.name}
+                    <span className='text-xs text-slate-500 ml-2'>
+                        {formatDate(note.createdAt)}
+                    </span>
                 </p>
-                <p className="text-xs text-slate-500">
-                    {formatDate(note.createdAt)}
-                </p>
-            </div>
 
-            {canDelete && (
-                <button
-                    type="button"
-                    className="bg-red-400 hover:bg-red-500 p-2 text-xs text-white font-bold cursor-pointer transition-colors"
-                    onClick={() => mutate({projectId, taskId, noteId: note._id})}
-                >Eliminar</button>
-            )}
+                {isEditing ? (
+                    <EditNoteForm
+                        note={note}
+                        projectId={projectId}
+                        taskId={taskId}
+                        onCancel={() => setIsEditing(false)}
+                    />
+                ) : (
+                    <div className=''>
+                        <p className='text-sm bg-white text-black p-2 rounded-md border-black shadow'>
+                            {note.content}
+                        </p>
+                        {note.createdBy._id === data?._id && (
+                            <div className='flex items-center gap-x-2 mt-2'>
+                                <PencilSquareIcon className='w-4 h-4 ' />
+                                <div className='h-1 w-1 bg-gray-600 rounded-full' />
+                                {canEdit && (
+                                    <button
+                                        className='text-xs text-gray-600 cursor-pointer hover:underline'
+                                        onClick={() => setIsEditing(true)}>
+                                        Modificar
+                                    </button>
+                                )}
+                                <div className='h-1 w-1 bg-gray-600 rounded-full' />
+                                {canDelete && (
+                                    <DeletePopover
+                                        onDelete={() => handleDeleteNote()}
+                                    />
+                                )}
+                            </div>
+                        )}
+                    </div>
+                )}
+            </div>
         </div>
-    )
+    );
 }

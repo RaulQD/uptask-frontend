@@ -82,11 +82,11 @@ export default function LoginView() {
                     )}
                 </div>
 
-                <input
+                <button
                     type='submit'
-                    value='Iniciar Sesión'
-                    className='bg-fuchsia-600 hover:bg-fuchsia-700 w-full p-3  text-white font-black  text-xl cursor-pointer'
-                />
+                    className='bg-fuchsia-600 hover:bg-fuchsia-700 w-full p-3  text-white font-black  text-xl cursor-pointer'>
+                    Iniciar Sesión
+                </button>
             </form>
 
             <nav className='mt-5 flex flex-col space-y-4'>

@@ -1,58 +1,59 @@
-import { useForm } from "react-hook-form";
-import { useParams } from "react-router-dom";
-import { useMutation } from "@tanstack/react-query";
-import ErrorMessage from "../ErrorMessage";
-import { TeamMemberForm } from "@/types/index";
-import { findUserByEmail } from "@/api/TeamAPI";
-import SearchResult from "./SearchResult";
+import { useForm } from 'react-hook-form';
+import { useParams } from 'react-router-dom';
+import { useMutation } from '@tanstack/react-query';
+import ErrorMessage from '../ErrorMessage';
+import { TeamMemberForm } from '@/types/index';
+import { findUserByEmail } from '@/api/TeamAPI';
+import SearchResult from './SearchResult';
+import Spinner from '../Spinner';
 
 export default function AddMemberForm() {
     const initialValues: TeamMemberForm = {
-        email: ''
-    }
-    const params = useParams()
-    const projectId = params.projectId!
+        email: '',
+    };
+    const params = useParams();
+    const projectId = params.projectId!;
 
-    const { register, handleSubmit, reset, formState: { errors } } = useForm({ defaultValues: initialValues })
+    const {
+        register,
+        handleSubmit,
+        reset,
+        formState: { errors },
+    } = useForm({ defaultValues: initialValues });
 
     const mutation = useMutation({
-        mutationFn: findUserByEmail
-    })
+        mutationFn: findUserByEmail,
+    });
 
     const handleSearchUser = async (formData: TeamMemberForm) => {
-        const data = {projectId, formData}
-        mutation.mutate(data)
-    }
+        const data = { projectId, formData };
+        mutation.mutate(data);
+    };
 
     const resetData = () => {
-        reset(),
-        mutation.reset()
-    }
+        reset(), mutation.reset();
+    };
 
     return (
         <>
-
             <form
-                className="mt-10 space-y-5"
+                className='mt-10 space-y-5'
                 onSubmit={handleSubmit(handleSearchUser)}
-                noValidate
-            >
-
-                <div className="flex flex-col gap-3">
-                    <label
-                        className="font-normal text-2xl"
-                        htmlFor="name"
-                    >E-mail de Usuario</label>
+                noValidate>
+                <div className='flex flex-col gap-3'>
+                    <label className='font-normal text-lg' htmlFor='name'>
+                        Correo electronico del usuario
+                    </label>
                     <input
-                        id="name"
-                        type="text"
-                        placeholder="E-mail del usuario a Agregar"
-                        className="w-full p-3  border-gray-300 border"
-                        {...register("email", {
-                            required: "El Email es obligatorio",
+                        id='name'
+                        type='text'
+                        placeholder='E-mail del usuario a Agregar'
+                        className='w-full p-3  border-gray-300 border rounded-md'
+                        {...register('email', {
+                            required: 'El correo electronico no puede ir vacio',
                             pattern: {
                                 value: /\S+@\S+\.\S+/,
-                                message: "E-mail no válido",
+                                message: 'El Correo electronico no válido',
                             },
                         })}
                     />
@@ -62,17 +63,27 @@ export default function AddMemberForm() {
                 </div>
 
                 <input
-                    type="submit"
-                    className=" bg-fuchsia-600 hover:bg-fuchsia-700 w-full p-3  text-white font-black  text-xl cursor-pointer"
+                    type='submit'
+                    className=' bg-fuchsia-600 hover:bg-fuchsia-700 w-full p-3  text-white font-black  text-xl cursor-pointer rounded-md'
                     value='Buscar Usuario'
                 />
             </form>
 
-            <div className="mt-10">
-                {mutation.isPending && <p className="text-center">Cargando...</p>}
-                {mutation.error && <p className="text-center">{mutation.error.message}</p>}
-                {mutation.data && <SearchResult user={mutation.data} reset={resetData} />}
+            <div className='mt-10'>
+                {mutation.isPending && (
+                    <div className='flex justify-center'>
+                        <Spinner />
+                    </div>
+                )}
+                {mutation.error && (
+                    <p className='text-center text-red-500'>
+                        {mutation.error.message}
+                    </p>
+                )}
+                {mutation.data && (
+                    <SearchResult user={mutation.data} reset={resetData} />
+                )}
             </div>
         </>
-    )
+    );
 }
