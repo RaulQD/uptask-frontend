@@ -1,14 +1,21 @@
 import { PencilSquareIcon, PlusIcon } from '@heroicons/react/20/solid';
 import { useState } from 'react';
-import SubTaskForm from './SubTaskForm';
 import SubTasksList from './SubTasksList';
 import ProgressBar from '../ProgressBar';
-import { useQuery } from '@tanstack/react-query';
-import { getSubTasksByTaksId } from '@/api/SubTaskAPI';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import {
+    deleteAllSubTasksByTaskId,
+    getSubTasksByTaksId,
+} from '@/api/SubTaskAPI';
 import { useSearchParams } from 'react-router-dom';
 import Spinner from '../Spinner';
+import CreateSubTasks from './CreateSubTasks';
+import { SubTask } from '@/types/index';
+import { toast } from 'react-toastify';
+import DeletePopover from '../DeletePopover';
 
 export default function SubTaskPanel() {
+    const queryClient = useQueryClient();
     const [searchParams] = useSearchParams();
     const taskId = searchParams.get('viewTask')!;
     const [isCreating, setIsCreating] = useState(false);
@@ -18,7 +25,39 @@ export default function SubTaskPanel() {
         queryFn: () => getSubTasksByTaksId(taskId),
         retry: false,
     });
-    // const canDelete = useMemo( () => data?_id === )
+    const { mutate: removeAllSubTasks } = useMutation({
+        mutationFn: deleteAllSubTasksByTaskId,
+        onMutate: async () => {
+            //CANCELAMOS LAS QUERIES ACTUALES
+            await queryClient.cancelQueries({ queryKey: ['subtasks', taskId] });
+            //Guardar los datos anteriores
+            const previousSubTasks = queryClient.getQueryData<SubTask[]>([
+                'subtasks',
+                taskId,
+            ]);
+            //Optimistic update: eliminamos todas las subtareas de la cache antes de que el servidor responda
+            queryClient.setQueryData<SubTask[]>(['subtasks', taskId], []);
+            return { previousSubTasks };
+        },
+        onError: (error, _data, context) => {
+            // Si hay un error, revertimos a los datos anteriores
+            queryClient.setQueryData(
+                ['subtasks', taskId],
+                context?.previousSubTasks
+            );
+            toast.error(error.message);
+        },
+        onSettled: () => {
+            // Opcional, para refetch por seguridad
+            queryClient.invalidateQueries({ queryKey: ['subtasks', taskId] });
+        },
+    });
+    const handleDeleteAllSubTasks = () => {
+        removeAllSubTasks({ taskId });
+        setIsCreating(false);
+        setShowForm(false);
+    };
+
     if (isLoading) {
         return (
             <div className='flex justify-center items-center'>
@@ -46,19 +85,27 @@ export default function SubTaskPanel() {
                                 <PencilSquareIcon className='w-5 h-5' />
                                 Subtarea
                             </h3>
-                            <button
+                            <DeletePopover
+                                onDelete={handleDeleteAllSubTasks}
+                                buttonClassName='text-sm bg-[#d0d4db] text-[#2D3F5E] font-medium px-3 py-2 rounded hover:bg-[#c4c8d4]'
+                                title='¿Desea eliminar las subtareas?'
+                                description='Eliminar todas las subtareas es una operación permanente e irreversible.'
+                            />
+                            {/* <button
                                 className='text-sm bg-[#d0d4db] text-[#2D3F5E] font-medium px-3 py-2 rounded hover:bg-[#c4c8d4]'
                                 onClick={() => {
                                     setIsCreating(false);
                                     setShowForm(false);
                                 }}>
                                 Eliminar
-                            </button>
+                            </button> */}
                         </div>
                         <ProgressBar subtask={subTasks} />
-                        <SubTasksList subtask={subTasks} />
+                        <SubTasksList
+                            subtask={subTasks}
+                        />
                         {showForm ? (
-                            <SubTaskForm setShowForm={setShowForm} />
+                            <CreateSubTasks setShowForm={setShowForm} />
                         ) : (
                             <button
                                 type='button'

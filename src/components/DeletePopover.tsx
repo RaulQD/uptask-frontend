@@ -9,12 +9,18 @@ import { Popover, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/20/solid';
 import { Fragment, useRef } from 'react';
 
-interface DeleteNotePopoverProps {
+type DeleteNotePopoverProps = {
     onDelete: () => void;
+    buttonClassName?: string;
+    title?: string;
+    description?: string;
 }
 
 export default function DeletePopover({
     onDelete,
+    buttonClassName,
+    title,
+    description 
 }: DeleteNotePopoverProps) {
     const buttonRef = useRef<HTMLButtonElement | null>(null);
     const panelRef = useRef<HTMLDivElement | null>(null);
@@ -28,7 +34,7 @@ export default function DeletePopover({
         whileElementsMounted: autoUpdate,
     });
     return (
-        <Popover className='relative '>
+        <Popover className='relative'>
             {({ open, close }) => (
                 <>
                     <Popover.Button
@@ -36,7 +42,7 @@ export default function DeletePopover({
                             refs.setReference(node);
                             buttonRef.current = node;
                         }}
-                        className='text-xs text-gray-600 cursor-pointer hover:underline block'>
+                        className={buttonClassName}>
                         Eliminar
                     </Popover.Button>
                     <Transition
@@ -57,7 +63,7 @@ export default function DeletePopover({
                             className='absolute z-10 bg-white border border-gray-300 rounded-md shadow-lg p-4 w-[350px]'>
                             <div className='relative'>
                                 <h3 className=' font-semibold text-gray-600 text-center mr-4'>
-                                    ¿Deseas eliminar este comentario?
+                                    {title}
                                 </h3>
                                 <button
                                     type='button'
@@ -68,8 +74,7 @@ export default function DeletePopover({
                             </div>
                           
                             <p className='text-sm text-gray-600 mt-2'>
-                                Eliminar un comentario es permanente. No es
-                                posible deshacer la operación.
+                                {description}
                             </p>
                             <div className='mt-4 '>
                                 <button

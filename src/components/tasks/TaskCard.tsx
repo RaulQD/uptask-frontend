@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment,} from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import { EllipsisVerticalIcon } from '@heroicons/react/20/solid';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -7,6 +7,13 @@ import { TaskProject } from '@/types/index';
 import { deleteTask } from '@/api/TaskAPI';
 import { toast } from 'react-toastify';
 import { useDraggable } from '@dnd-kit/core';
+import {
+    autoUpdate,
+    flip,
+    offset,
+    shift,
+    useFloating,
+} from '@floating-ui/react';
 
 type TaskCardProps = {
     task: TaskProject;
@@ -16,6 +23,11 @@ type TaskCardProps = {
 export default function TaskCard({ task, canEdit }: TaskCardProps) {
     const { attributes, listeners, setNodeRef, transform } = useDraggable({
         id: task._id,
+    });
+    const { refs, floatingStyles } = useFloating({
+        placement: 'bottom-end',
+        middleware: [offset({ mainAxis: 4 }), flip(), shift()],
+        whileElementsMounted: autoUpdate,
     });
     const navigate = useNavigate();
     const params = useParams();
@@ -61,7 +73,11 @@ export default function TaskCard({ task, canEdit }: TaskCardProps) {
 
             <div className='flex shrink-0  gap-x-6'>
                 <Menu as='div' className='relative flex-none'>
-                    <Menu.Button className='-m-2.5 block p-2.5 text-gray-500 hover:text-gray-900'>
+                    <Menu.Button
+                        className='-m-2.5 block p-2.5 text-gray-500 hover:text-gray-900'
+                        ref={(node) => {
+                            refs.setReference(node);
+                        }}>
                         <span className='sr-only'>opciones</span>
                         <EllipsisVerticalIcon
                             className='h-9 w-9'
@@ -76,7 +92,12 @@ export default function TaskCard({ task, canEdit }: TaskCardProps) {
                         leave='transition ease-in duration-75'
                         leaveFrom='transform opacity-100 scale-100'
                         leaveTo='transform opacity-0 scale-95'>
-                        <Menu.Items className='absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none'>
+                        <Menu.Items
+                            className='absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none'
+                            ref={(node) => {
+                                refs.setFloating(node);
+                            }}
+                            style={floatingStyles}>
                             <Menu.Item>
                                 <button
                                     type='button'

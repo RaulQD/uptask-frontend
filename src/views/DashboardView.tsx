@@ -27,14 +27,14 @@ export default function DashboardView() {
     if (data && user)
         return (
             <>
-                <h1 className='text-5xl font-black'>Mis Proyectos</h1>
-                <p className='text-2xl font-light text-gray-500 mt-5'>
+                <h1 className='text-4xl font-bold'>Mis Proyectos</h1>
+                <p className='text-2xl font-normal text-gray-600 my-4'>
                     Maneja y administra tus proyectos
                 </p>
 
-                <nav className='my-5 '>
+                <nav className='my-5'>
                     <Link
-                        className=' bg-purple-400 hover:bg-purple-500 px-10 py-3 text-white text-xl font-bold cursor-pointer transition-colors'
+                        className=' bg-purple-600 hover:bg-purple-700 px-10 py-3 text-white font-bold cursor-pointer transition-colors rounded-md inline-block'
                         to='/projects/create'>
                         Nuevo Proyecto
                     </Link>
@@ -43,11 +43,11 @@ export default function DashboardView() {
                 {data.length ? (
                     <ul
                         role='list'
-                        className='divide-y divide-gray-100 border border-gray-100 mt-10 bg-white shadow-lg'>
+                       >
                         {data.map((project) => (
                             <li
                                 key={project._id}
-                                className='flex justify-between gap-x-6 px-5 py-10'>
+                                className='flex justify-between gap-x-6 px-5 py-10 border-gray-100 mt-10 bg-white shadow-md rounded-md'>
                                 <div className='flex min-w-0 gap-x-4'>
                                     <div className='min-w-0 flex-auto space-y-2'>
                                         <div className='mb-2'>

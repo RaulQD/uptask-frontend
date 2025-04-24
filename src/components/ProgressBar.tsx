@@ -7,7 +7,6 @@ type ProgressBarProps = {
 export default function ProgressBar({ subtask }: ProgressBarProps) {
     // Calculate the progress percentage based on completed subtasks
     const total = subtask.length;
-    console.log(total);
     //FILTRAMOS LAS SUBTAREAS QUE ESTAN COMPLETADAS Y CONTAMOS CUANTAS HAY
     const completedSubTask = subtask.filter(
         (subtask) => subtask.completed

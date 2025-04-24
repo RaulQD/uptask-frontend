@@ -84,6 +84,9 @@ export default function NoteDetail({ note }: NoteDetailProps) {
                                 {canDelete && (
                                     <DeletePopover
                                         onDelete={() => handleDeleteNote()}
+                                        buttonClassName='text-xs text-gray-600 cursor-pointer hover:underline block'
+                                        title='¿Desea eliminar la nota?'
+                                        description='Eliminar la nota es permanente. No es posible deshacer la operación'
                                     />
                                 )}
                             </div>
