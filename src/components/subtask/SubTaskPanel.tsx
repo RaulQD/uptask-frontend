@@ -14,7 +14,15 @@ import { SubTask } from '@/types/index';
 import { toast } from 'react-toastify';
 import DeletePopover from '../DeletePopover';
 
-export default function SubTaskPanel() {
+type SubTaskPanelProps = {
+    hideCompleted: boolean;
+    setHideCompleted: (value: boolean) => void;
+};
+
+export default function SubTaskPanel({
+    hideCompleted,
+    setHideCompleted,
+}: SubTaskPanelProps) {
     const queryClient = useQueryClient();
     const [searchParams] = useSearchParams();
     const taskId = searchParams.get('viewTask')!;
@@ -25,6 +33,16 @@ export default function SubTaskPanel() {
         queryFn: () => getSubTasksByTaksId(taskId),
         retry: false,
     });
+
+    const hasCompleted = subTasks?.some((sub) => sub.completed);
+    const visibleSubTasks = hideCompleted
+        ? subTasks?.filter((sub) => !sub.completed)
+        : subTasks;
+    //SUBTAREAS COMPLETADAS
+    const completedSubTasks = subTasks?.filter((sub) => sub.completed).length;
+    //VERIFICAR SI TODAS LAS SUBTAREAS ESTAN COMPLETADAS
+    const allSubTasksCompleted = subTasks?.every((sub) => sub.completed);
+
     const { mutate: removeAllSubTasks } = useMutation({
         mutationFn: deleteAllSubTasksByTaskId,
         onMutate: async () => {
@@ -85,35 +103,50 @@ export default function SubTaskPanel() {
                                 <PencilSquareIcon className='w-5 h-5' />
                                 Subtarea
                             </h3>
-                            <DeletePopover
-                                onDelete={handleDeleteAllSubTasks}
-                                buttonClassName='text-sm bg-[#d0d4db] text-[#2D3F5E] font-medium px-3 py-2 rounded hover:bg-[#c4c8d4]'
-                                title='¿Desea eliminar las subtareas?'
-                                description='Eliminar todas las subtareas es una operación permanente e irreversible.'
-                            />
-                            {/* <button
-                                className='text-sm bg-[#d0d4db] text-[#2D3F5E] font-medium px-3 py-2 rounded hover:bg-[#c4c8d4]'
-                                onClick={() => {
-                                    setIsCreating(false);
-                                    setShowForm(false);
-                                }}>
-                                Eliminar
-                            </button> */}
+                            <div className='flex gap-2 '>
+                                {hasCompleted && (
+                                    <button
+                                        className='text-sm bg-[#d0d4db] text-[#2D3F5E] font-medium px-3 py-2 rounded hover:bg-[#c4c8d4]'
+                                        onClick={() =>
+                                            setHideCompleted(!hideCompleted)
+                                        }>
+                                        {hideCompleted
+                                            ? `Mostrar los elementos completados (${completedSubTasks})`
+                                            : 'Ocultar los elementos marcados'}
+                                    </button>
+                                )}
+                                <DeletePopover
+                                    onDelete={handleDeleteAllSubTasks}
+                                    buttonClassName='text-sm bg-[#d0d4db] text-[#2D3F5E] font-medium px-3 py-2 rounded hover:bg-[#c4c8d4]'
+                                    title='¿Desea eliminar las subtareas?'
+                                    description='Eliminar todas las subtareas es una operación permanente e irreversible.'
+                                    textButton='Eliminar las subtareas'
+                                />
+                            </div>
                         </div>
-                        <ProgressBar subtask={subTasks} />
-                        <SubTasksList
+                        <ProgressBar
                             subtask={subTasks}
+                            allSubTasksCompleted={allSubTasksCompleted!}
                         />
-                        {showForm ? (
-                            <CreateSubTasks setShowForm={setShowForm} />
+                        {hideCompleted && allSubTasksCompleted ? (
+                            <p className='text-sm text-slate-500 mb-2 pl-8'>
+                                ¡Todas las subtareas han sido completadas.!
+                            </p>
                         ) : (
-                            <button
-                                type='button'
-                                className='text-sm bg-[#d0d4db] text-[#2D3F5E] font-medium px-3 py-2 rounded hover:bg-[#c4c8d4]'
-                                onClick={() => setShowForm(true)}>
-                                Añader un elemento.
-                            </button>
+                            <SubTasksList subtask={visibleSubTasks!} />
                         )}
+                        <div className='pl-8'>
+                            {showForm ? (
+                                <CreateSubTasks setShowForm={setShowForm} />
+                            ) : (
+                                <button
+                                    type='button'
+                                    className='text-sm bg-[#d0d4db] text-[#2D3F5E] font-medium px-3 py-2 rounded hover:bg-[#c4c8d4]'
+                                    onClick={() => setShowForm(true)}>
+                                    Añader un elemento
+                                </button>
+                            )}
+                        </div>
                     </>
                 )}
             </>

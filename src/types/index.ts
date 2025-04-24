@@ -38,6 +38,16 @@ const noteSchema = z.object({
     task: z.string(),
     createdAt: z.string()
 })
+export const noteListSchema = z.array(
+    noteSchema.pick({
+        _id: true,
+        content: true,
+        createdBy: true,
+        task: true,
+        createdAt: true
+    })
+)
+export type NoteList = z.infer<typeof noteListSchema>
 export type Note = z.infer<typeof noteSchema>
 export type NoteFormData = Pick<Note, 'content'>
 export type editNoteFormData = Pick<Note, 'content'>
@@ -80,9 +90,9 @@ export const taskSchema = z.object({
         user: userSchema,
         status: taskStatusSchema
     })),
-    notes: z.array(noteSchema.extend({
-        createdBy: userSchema
-    })),
+    // notes: z.array(noteSchema.extend({
+    //     createdBy: userSchema
+    // })),
     // subtasks: z.array(subTaskSchema),
     createdAt: z.string(),
     updatedAt: z.string()
@@ -135,3 +145,4 @@ const teamMemberSchema = userSchema.pick({
 export const teamMembersSchema = z.array(teamMemberSchema)
 export type TeamMember = z.infer<typeof teamMemberSchema>
 export type TeamMemberForm = Pick<TeamMember, 'email'>
+export type TeamMemberFormAndName = Pick<TeamMember, 'email' | 'name'>

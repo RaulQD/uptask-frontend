@@ -1,5 +1,5 @@
 import { isAxiosError } from "axios";
-import { editProjectSchema, Note, NoteFormData, Project, Task } from "../types";
+import { editProjectSchema, Note, NoteFormData, noteListSchema, Project, Task } from "../types";
 import api from "@/lib/axios";
 
 type NoteAPIType = {
@@ -35,6 +35,20 @@ export async function getNote({ projectId, taskId, noteId }: Pick<NoteAPIType, '
         }
     }
 }
+export async function getTaskNotes(projectId: Project['_id'], taskId: Task['_id']) {
+    try {
+        const { data } = await api.get(`/projects/${projectId}/tasks/${taskId}/notes`)
+        const response = noteListSchema.safeParse(data)
+        if (response.success) {
+            return response.data
+        }
+    } catch (error) {
+        if (isAxiosError(error) && error.response) {
+            throw new Error(error.response.data.error)
+        }
+        throw error;
+    }
+}
 
 export async function updateNote({ projectId, taskId, noteId, formData }: Pick<NoteAPIType, 'projectId' | 'taskId' | 'noteId' | 'formData'>) {
     try {
@@ -42,7 +56,6 @@ export async function updateNote({ projectId, taskId, noteId, formData }: Pick<N
         const { data } = await api.put(url, formData)
         return data
     } catch (error) {
-        console.log(error)
         if (isAxiosError(error) && error.response) {
             throw new Error(error.response.data.error)
         }

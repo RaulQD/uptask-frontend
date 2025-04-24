@@ -32,11 +32,34 @@ export default function EditNoteForm({
     });
     const { mutate } = useMutation({
         mutationFn: updateNote,
-        onError: (error) => toast.error(error.message),
-        onSuccess: (data) => {
-            toast.success(data.message);
-            queryClient.invalidateQueries({ queryKey: ['task', taskId] });
+        onMutate: async (data) => {
+            await queryClient.cancelQueries({ queryKey: ['task', taskId] });
+            const previusNote = queryClient.getQueryData<Note[]>([
+                'notes',
+                projectId,
+                taskId,
+            ]);
+            // Optimistic update: actualizamos la nota en la cache antes de que el servidor responda
+            queryClient.setQueryData<Note[]>(
+                ['notes', projectId, taskId],
+                (oldData) => {
+                    return oldData?.map((note) =>
+                        note._id === data.noteId
+                            ? { ...note, content: data.formData.content }
+                            : note
+                    );
+                }
+            );
+            return { previusNote };
+        },
+        onError: (error,_data,context) =>{ 
+            queryClient.setQueryData<Note[]>(['notes', projectId, taskId], context?.previusNote);
+            toast.error(error.message);
+        },
+        onSettled: () => {
+            queryClient.invalidateQueries({ queryKey: ['notes', projectId, taskId] });
             reset();
+            onCancel();
         },
     });
     const content = watch('content');
@@ -48,8 +71,7 @@ export default function EditNoteForm({
             noteId: note._id,
         };
         mutate(data);
-        reset();
-        onCancel();
+       
     };
 
     return (

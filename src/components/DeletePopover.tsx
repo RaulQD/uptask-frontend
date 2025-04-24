@@ -14,13 +14,15 @@ type DeleteNotePopoverProps = {
     buttonClassName?: string;
     title?: string;
     description?: string;
+    textButton?: string;
 }
 
 export default function DeletePopover({
     onDelete,
     buttonClassName,
     title,
-    description 
+    description,
+    textButton
 }: DeleteNotePopoverProps) {
     const buttonRef = useRef<HTMLButtonElement | null>(null);
     const panelRef = useRef<HTMLDivElement | null>(null);
@@ -82,7 +84,7 @@ export default function DeletePopover({
                                     onClick={() => {
                                         onDelete(), close();
                                     }}>
-                                    Elimnar nota
+                                  {textButton}
                                 </button>
                             </div>
                         </Popover.Panel>

@@ -35,10 +35,34 @@ export default function NoteDetail({ note }: NoteDetailProps) {
     const queryClient = useQueryClient();
     const { mutate } = useMutation({
         mutationFn: deleteNote,
-        onError: (error) => toast.error(error.message),
-        onSuccess: (data) => {
-            toast.success(data);
-            queryClient.invalidateQueries({ queryKey: ['task', taskId] });
+        onMutate: async (notes) => {
+            await queryClient.cancelQueries({
+                queryKey: ['notes', projectId, taskId],
+            });
+            const previousNotes = queryClient.getQueryData<Note[]>([
+                'notes',
+                projectId,
+                taskId,
+            ]);
+            queryClient.setQueryData<Note[]>(
+                ['notes', projectId, taskId],
+                (oldNotes) =>
+                    oldNotes?.filter((note) => note._id !== notes.noteId)
+            );
+            return { previousNotes };
+        },
+        onError: (error, _data, context) => {
+            queryClient.setQueryData(
+                ['notes', projectId, taskId],
+                context?.previousNotes
+            );
+            toast.error(error.message);
+        },
+        onSettled: () => {
+            queryClient.invalidateQueries({
+                queryKey: ['notes', projectId, taskId],
+            });
+
         },
     });
 
@@ -48,7 +72,7 @@ export default function NoteDetail({ note }: NoteDetailProps) {
     if (isLoading) return 'Cargando...';
 
     return (
-        <div className='flex justify-between items-center py-2'>
+        <div className='flex justify-between items-center py-2 pl-8'>
             <div className='flex flex-col gap-2 w-full'>
                 <p className='font-semibold'>
                     {note.createdBy.name}
@@ -87,6 +111,7 @@ export default function NoteDetail({ note }: NoteDetailProps) {
                                         buttonClassName='text-xs text-gray-600 cursor-pointer hover:underline block'
                                         title='¿Desea eliminar la nota?'
                                         description='Eliminar la nota es permanente. No es posible deshacer la operación'
+                                        textButton='Eliminar nota'
                                     />
                                 )}
                             </div>

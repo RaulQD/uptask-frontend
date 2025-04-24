@@ -39,16 +39,14 @@ export default function AddMemberModal() {
                                 leaveFrom="opacity-100 scale-100"
                                 leaveTo="opacity-0 scale-95"
                             >
-                                <Dialog.Panel className="w-full max-w-4xl transform overflow-hidden rounded-2xl bg-white text-left align-middle shadow-xl transition-all p-16">
+                                <Dialog.Panel className="w-full max-w-[700px] transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
                                     <Dialog.Title
-                                        as="h3"
-                                        className="font-black text-4xl  my-5"
+                                        as="h1"
+                                        className="text-xl font-normal"
                                     >
-                                        Agregar Integrante al equipo
+                                       Invitar al Espacio de trabajo
                                     </Dialog.Title>
-                                    <p className="text-xl font-bold">Busca el nuevo integrante por email {''}
-                                        <span className="text-fuchsia-600">para agregarlo al proyecto</span>
-                                    </p>
+                                    
                                     <AddMemberForm />
                                     
                                 </Dialog.Panel>

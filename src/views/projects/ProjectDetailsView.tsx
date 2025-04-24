@@ -7,10 +7,11 @@ import EditTaskData from '@/components/tasks/EditTaskData';
 import TaskModalDetails from '@/components/tasks/TaskModalDetails';
 import { useAuth } from '@/hooks/useAuth';
 import { isManager } from '@/utils/policies';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import Spinner from '@/components/Spinner';
 
 export default function ProjectDetailsView() {
+    const [hideElements, setHideElements] = useState(false);
     const { data: user, isLoading: authLoading } = useAuth();
     const navigate = useNavigate();
 
@@ -33,25 +34,25 @@ export default function ProjectDetailsView() {
     if (data && user)
         return (
             <>
-                <h1 className='text-5xl font-black'>{data.projectName}</h1>
+                <h1 className='text-4xl font-black capitalize'>{data.projectName}</h1>
                 <p className='text-2xl font-light text-gray-500 mt-5'>
                     {data.description}
                 </p>
 
                 {isManager(data.manager, user._id) && (
-                    <nav className='my-5 flex gap-3'>
+                    <nav className='my-5 flex flex-col md:flex-row gap-3'>
                         <button
                             type='button'
                             className='bg-purple-400 hover:bg-purple-500 px-10 py-3 text-white text-lg font-bold cursor-pointer transition-colors rounded-md'
                             onClick={() =>
                                 navigate(location.pathname + '?newTask=true')
                             }>
-                            Agregar Tarea
+                            Agregar tarea
                         </button>
 
                         <Link
                             to={'team'}
-                            className='bg-fuchsia-600 hover:bg-fuchsia-700 px-10 py-3 text-white text-lg font-bold cursor-pointer transition-colors rounded-md'>
+                            className='bg-fuchsia-600 hover:bg-fuchsia-700 px-10 py-3 text-white text-lg font-bold cursor-pointer transition-colors rounded-md text-center'>
                             Colaboradores
                         </Link>
                     </nav>
@@ -60,7 +61,7 @@ export default function ProjectDetailsView() {
                 <TaskList tasks={data.tasks} canEdit={canEdit} />
                 <AddTaskModal />
                 <EditTaskData />
-                <TaskModalDetails />
+                <TaskModalDetails hideElements={hideElements} setHideElements={setHideElements}/>
             </>
         );
 }

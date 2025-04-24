@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import {
     Navigate,
@@ -14,8 +14,19 @@ import { TaskStatus } from '@/types/index';
 import { statusTranslations } from '@/locales/es';
 import NotesPanel from '../notes/NotesPanel';
 import SubTaskPanel from '../subtask/SubTaskPanel';
+import { ListBulletIcon } from '@heroicons/react/20/solid';
+import { SwatchIcon } from '@heroicons/react/24/outline';
 
-export default function TaskModalDetails() {
+type TaskModalDetailsProps = {
+    hideElements: boolean;
+    setHideElements: (value: boolean) => void;
+};
+
+export default function TaskModalDetails({
+    hideElements,
+    setHideElements,
+}: TaskModalDetailsProps) {
+    const [hideCompleted, setHideCompleted] = useState(false);
     const params = useParams();
     const projectId = params.projectId!;
     const navigate = useNavigate();
@@ -105,61 +116,82 @@ export default function TaskModalDetails() {
                                         <p className='text-lg text-slate-500 mb-3 mt-1'>
                                             Descripción: {data.description}
                                         </p>
-                                        <SubTaskPanel  />
+                                        <SubTaskPanel
+                                            hideCompleted={hideCompleted}
+                                            setHideCompleted={setHideCompleted}
+                                        />
                                         {data.completedBy.length ? (
                                             <>
-                                                <p className='font-medium text-xl text-slate-600 my-5'>
-                                                    Historial de Cambios
-                                                </p>
-
-                                                <ul className='list-decimal list-inside'>
-                                                    {data.completedBy.map(
-                                                        (activityLog) => (
-                                                            <li
-                                                                key={
-                                                                    activityLog._id
-                                                                }>
-                                                                <span className='font-bold text-slate-600'>
+                                                <div className='flex items-center justify-between mt-5 mb-4'>
+                                                    <p className='font-medium text-xl text-slate-600 flex items-center gap-2'>
+                                                        <ListBulletIcon className='w-5 h-5 inline-block' />
+                                                        Historial de Cambios
+                                                    </p>
+                                                    <button
+                                                        className='text-sm bg-[#d0d4db] text-[#2D3F5E] font-medium px-3 py-2 rounded hover:bg-[#c4c8d4]'
+                                                        onClick={() =>
+                                                            setHideElements(
+                                                                !hideElements
+                                                            )
+                                                        }>
+                                                        {hideElements
+                                                            ? 'Ocultar detalles'
+                                                            : 'Mostrar detalles'}
+                                                    </button>
+                                                </div>
+                                                {hideElements && (
+                                                    <ul className='list-decimal list-inside pl-8'>
+                                                        {data.completedBy.map(
+                                                            (activityLog) => (
+                                                                <li
+                                                                    key={
+                                                                        activityLog._id
+                                                                    } className='mb-1'>
+                                                                    <span className='font-bold text-slate-600'>
+                                                                        {
+                                                                            statusTranslations[
+                                                                                activityLog
+                                                                                    .status
+                                                                            ]
+                                                                        }{' '}
+                                                                        por:
+                                                                    </span>
                                                                     {
-                                                                        statusTranslations[
-                                                                            activityLog
-                                                                                .status
-                                                                        ]
+                                                                        activityLog
+                                                                            .user
+                                                                            .name
                                                                     }
-                                                                </span>
-                                                                por:
-                                                                {
-                                                                    activityLog
-                                                                        .user
-                                                                        .name
-                                                                }
-                                                            </li>
-                                                        )
-                                                    )}
-                                                </ul>
+                                                                </li>
+                                                            )
+                                                        )}
+                                                    </ul>
+                                                )}
                                             </>
                                         ) : null}
 
                                         <div className='my-5 space-y-3'>
-                                            <label className='font-medium text-slate-600 text-xl'>
+                                            <label className='font-medium text-slate-600 text-xl flex items-center gap-2'>
+                                                <SwatchIcon className='w-5 h-5' />
                                                 Estado Actual
                                             </label>
-                                            <select
-                                                className='w-full p-3 bg-white border border-gray-300 text-sm rounded-md'
-                                                defaultValue={data.status}
-                                                onChange={handleChange}>
-                                                {Object.entries(
-                                                    statusTranslations
-                                                ).map(([key, value]) => (
-                                                    <option
-                                                        key={key}
-                                                        value={key}>
-                                                        {value}
-                                                    </option>
-                                                ))}
-                                            </select>
+                                            <div className='pl-8'>
+                                                <select
+                                                    className='w-full p-3 bg-white border border-gray-300 text-sm rounded-md '
+                                                    defaultValue={data.status}
+                                                    onChange={handleChange}>
+                                                    {Object.entries(
+                                                        statusTranslations
+                                                    ).map(([key, value]) => (
+                                                        <option
+                                                            key={key}
+                                                            value={key}>
+                                                            {value}
+                                                        </option>
+                                                    ))}
+                                                </select>
+                                            </div>
                                         </div>
-                                        <NotesPanel notes={data.notes} />
+                                        <NotesPanel />
                                     </Dialog.Panel>
                                 </Transition.Child>
                             </div>

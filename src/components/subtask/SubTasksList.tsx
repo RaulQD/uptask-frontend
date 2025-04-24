@@ -11,7 +11,7 @@ type subTaskProps = {
     subtask: SubTask[];
 };
 
-export default function SubTasksList({ subtask}: subTaskProps) {
+export default function SubTasksList({ subtask }: subTaskProps) {
     const [editingSubTask, setEditingSubTask] = useState<SubTask['_id'] | null>(
         null
     );

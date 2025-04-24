@@ -65,7 +65,7 @@ export default function TaskCard({ task, canEdit }: TaskCardProps) {
                 ref={setNodeRef}
                 style={style}
                 className=' min-w-0 flex flex-col gap-y-4'>
-                <p className='text-xl font-bold text-slate-600 text-left'>
+                <p className=' font-bold text-slate-600 text-left'>
                     {task.name}
                 </p>
                 <p className='text-slate-500'>{task.description}</p>
@@ -74,13 +74,13 @@ export default function TaskCard({ task, canEdit }: TaskCardProps) {
             <div className='flex shrink-0  gap-x-6'>
                 <Menu as='div' className='relative flex-none'>
                     <Menu.Button
-                        className='-m-2.5 block p-2.5 text-gray-500 hover:text-gray-900'
+                        className='-m-1.5 block p-1 text-gray-500 hover:text-gray-900 hover:bg-gray-100 transition-colors rounded-md'
                         ref={(node) => {
                             refs.setReference(node);
                         }}>
                         <span className='sr-only'>opciones</span>
                         <EllipsisVerticalIcon
-                            className='h-9 w-9'
+                            className='h-5 w-5'
                             aria-hidden='true'
                         />
                     </Menu.Button>
