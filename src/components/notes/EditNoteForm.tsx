@@ -30,7 +30,7 @@ export default function EditNoteForm({
             content: note.content,
         },
     });
-    const { mutate } = useMutation({
+    const { mutate, isPending } = useMutation({
         mutationFn: updateNote,
         onMutate: async (data) => {
             await queryClient.cancelQueries({ queryKey: ['task', taskId] });
@@ -58,8 +58,6 @@ export default function EditNoteForm({
         },
         onSettled: () => {
             queryClient.invalidateQueries({ queryKey: ['notes', projectId, taskId] });
-            reset();
-            onCancel();
         },
     });
     const content = watch('content');
@@ -71,6 +69,8 @@ export default function EditNoteForm({
             noteId: note._id,
         };
         mutate(data);
+        reset();
+        onCancel();
        
     };
 
@@ -94,13 +94,13 @@ export default function EditNoteForm({
             <div className='flex gap-2'>
                 <button
                     type='submit'
-                    disabled={!isDirty || content.trim() === ''}
+                    disabled={!isDirty || content.trim() === '' || isPending}
                     className={`px-4 py-2 rounded-md text-white ${
                         !isDirty || content.trim() === ''
                             ? 'bg-gray-400 cursor-not-allowed'
                             : 'bg-fuchsia-600 hover:bg-fuchsia-700 transition-colors'
                     }`}>
-                    Guardar
+                    {isPending ? 'Cargando...' : 'Guardar cambios'}
                 </button>
                 <button
                     type='button'

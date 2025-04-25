@@ -46,27 +46,10 @@ export default function CreateSubTasks({ setShowForm }: CreateSubTaskProps) {
                 return [...old, optimisticSubTask];
             });
             return { previousSubTasks, optimisticSubTask };
-        },
-        onSuccess: (subtasks, _variables, context) => {
-            queryClient.setQueryData<SubTask[]>(['subtasks', taskId], (old) => {
-                if (!old) return [subtasks];
-                return old.map((cacheSubtask) =>
-                    cacheSubtask._id === context?.optimisticSubTask._id
-                        ? subtasks
-                        : cacheSubtask
-                );
-            });
-            reset();
-        },
+        },        
         onError: (error, _variables, context) => {
             // Si hay un error, revertimos a los datos anteriores
-            queryClient.setQueryData<SubTask[]>(['subtasks', taskId], (old) => {
-                if (!old) return [];
-                return old.filter(
-                    (cacheSubTask) =>
-                        cacheSubTask._id !== context?.optimisticSubTask._id
-                );
-            });
+            queryClient.setQueryData<SubTask[]>(['subtasks', taskId], context?.previousSubTasks);
             toast.error(error.message);
         },
         onSettled: () => {
@@ -77,6 +60,7 @@ export default function CreateSubTasks({ setShowForm }: CreateSubTaskProps) {
     const handleSubmitForm = (formData: SubTaskFormData) => {
         const data = { taskId, formData };
         mutate(data);
+        reset();
     };
     return (
         <SubTaskForm

@@ -42,12 +42,12 @@ export default function AddNoteForm() {
             queryClient.invalidateQueries({
                 queryKey: ['notes', projectId, taskId],
             });
-            setIsEditing(false);
-            reset();
         },
     });
     const handleAddNote = (formData: NoteFormData) => {
         mutate({ projectId, taskId, formData });
+        setIsEditing(false);
+        reset();
     };
 
     return (
