@@ -99,14 +99,14 @@ export default function SubTaskPanel({
                 ) : (
                     <>
                         <div className='flex items-center justify-between mb-3'>
-                            <h3 className='text-xl font-medium text-slate-600 flex items-center gap-2'>
+                            <h3 className='font-semibold  text-slate-600 flex items-center gap-2'>
                                 <PencilSquareIcon className='w-5 h-5' />
                                 Subtarea
                             </h3>
                             <div className='flex gap-2 '>
                                 {hasCompleted && (
                                     <button
-                                        className='text-sm bg-[#d0d4db] text-[#2D3F5E] font-medium px-3 py-2 rounded hover:bg-[#c4c8d4]'
+                                        className='text-sm bg-[#d0d4db] text-[#2D3F5E] font-medium px-3 py-2 rounded hover:bg-[#c4c8d4] transition-colors'
                                         onClick={() =>
                                             setHideCompleted(!hideCompleted)
                                         }>
@@ -117,7 +117,7 @@ export default function SubTaskPanel({
                                 )}
                                 <DeletePopover
                                     onDelete={handleDeleteAllSubTasks}
-                                    buttonClassName='text-sm bg-[#d0d4db] text-[#2D3F5E] font-medium px-3 py-2 rounded hover:bg-[#c4c8d4]'
+                                    buttonClassName='text-sm bg-[#d0d4db] text-[#2D3F5E] font-medium px-3 py-2 rounded hover:bg-[#c4c8d4] transition-colors'
                                     title='¿Desea eliminar las subtareas?'
                                     description='Eliminar todas las subtareas es una operación permanente e irreversible.'
                                     textButton='Eliminar las subtareas'
@@ -141,7 +141,7 @@ export default function SubTaskPanel({
                             ) : (
                                 <button
                                     type='button'
-                                    className='text-sm bg-[#d0d4db] text-[#2D3F5E] font-medium px-3 py-2 rounded hover:bg-[#c4c8d4]'
+                                    className='text-sm bg-[#d0d4db] text-[#2D3F5E] font-medium px-3 py-2 rounded hover:bg-[#c4c8d4] transition-colors'
                                     onClick={() => setShowForm(true)}>
                                     Añader un elemento
                                 </button>

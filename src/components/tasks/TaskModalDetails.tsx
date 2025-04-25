@@ -15,7 +15,7 @@ import { statusTranslations } from '@/locales/es';
 import NotesPanel from '../notes/NotesPanel';
 import SubTaskPanel from '../subtask/SubTaskPanel';
 import { ListBulletIcon } from '@heroicons/react/20/solid';
-import { SwatchIcon } from '@heroicons/react/24/outline';
+import { Bars3BottomLeftIcon, SwatchIcon } from '@heroicons/react/24/outline';
 
 type TaskModalDetailsProps = {
     hideElements: boolean;
@@ -113,9 +113,15 @@ export default function TaskModalDetails({
                                             className='font-black text-2xl text-slate-600 mt-5'>
                                             {data.name}{' '}
                                         </Dialog.Title>
-                                        <p className='text-lg text-slate-500 mb-3 mt-1'>
-                                            Descripción: {data.description}
-                                        </p>
+                                        <div className='mt-5 flex flex-col gap-y-3 '>
+                                            <h3 className='font-medium text-slate-600 flex items-center gap-2 '>
+                                                <Bars3BottomLeftIcon className='w-5 h-5' />
+                                                Descripción
+                                            </h3>
+                                            <p className='pl-8 text-slate-600 mb-6 mt-1'>
+                                                {data.description}
+                                            </p>
+                                        </div>
                                         <SubTaskPanel
                                             hideCompleted={hideCompleted}
                                             setHideCompleted={setHideCompleted}
@@ -123,12 +129,12 @@ export default function TaskModalDetails({
                                         {data.completedBy.length ? (
                                             <>
                                                 <div className='flex items-center justify-between mt-5 mb-4'>
-                                                    <p className='font-medium text-xl text-slate-600 flex items-center gap-2'>
+                                                    <p className='font-semibold  text-slate-600 flex items-center gap-2'>
                                                         <ListBulletIcon className='w-5 h-5 inline-block' />
                                                         Historial de Cambios
                                                     </p>
                                                     <button
-                                                        className='text-sm bg-[#d0d4db] text-[#2D3F5E] font-medium px-3 py-2 rounded hover:bg-[#c4c8d4]'
+                                                        className='text-sm bg-[#d0d4db] text-[#2D3F5E] font-medium px-3 py-2 rounded hover:bg-[#c4c8d4] transition-colors'
                                                         onClick={() =>
                                                             setHideElements(
                                                                 !hideElements
@@ -146,8 +152,9 @@ export default function TaskModalDetails({
                                                                 <li
                                                                     key={
                                                                         activityLog._id
-                                                                    } className='mb-1'>
-                                                                    <span className='font-bold text-slate-600'>
+                                                                    }
+                                                                    className='mb-1'>
+                                                                    <span className='font-bold text-slate-700'>
                                                                         {
                                                                             statusTranslations[
                                                                                 activityLog
@@ -155,7 +162,7 @@ export default function TaskModalDetails({
                                                                             ]
                                                                         }{' '}
                                                                         por:
-                                                                    </span>
+                                                                    </span>{' '}
                                                                     {
                                                                         activityLog
                                                                             .user
@@ -170,7 +177,7 @@ export default function TaskModalDetails({
                                         ) : null}
 
                                         <div className='my-5 space-y-3'>
-                                            <label className='font-medium text-slate-600 text-xl flex items-center gap-2'>
+                                            <label className='font-semibold  text-slate-600 flex items-center gap-2'>
                                                 <SwatchIcon className='w-5 h-5' />
                                                 Estado Actual
                                             </label>

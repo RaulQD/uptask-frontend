@@ -52,7 +52,7 @@ export default function AddNoteForm() {
 
     return (
         <div className='space-y-3'>
-            <h3 className='text-xl font-medium flex items-center gap-2 text-slate-600'>
+            <h3 className='font-semibold text-slate-600 flex items-center gap-2'>
                 <ClipboardDocumentListIcon className='w-6 h-6' />
                 Notas
             </h3>
