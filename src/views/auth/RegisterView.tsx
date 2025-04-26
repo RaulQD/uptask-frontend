@@ -5,6 +5,7 @@ import { UserRegistrationForm } from '@/types/index';
 import ErrorMessage from '@/components/ErrorMessage';
 import { createAccount } from '@/api/AuthAPI';
 import { toast } from 'react-toastify';
+import { Seo } from '../../components/Seo';
 
 export default function RegisterView() {
     const initialValues: UserRegistrationForm = {
@@ -39,6 +40,12 @@ export default function RegisterView() {
 
     return (
         <>
+        <Seo 
+            title='Crear Cuenta - UpTask'
+            description='Crea tu cuenta en UpTask y comienza a gestionar tus proyectos de manera eficiente.'
+            keywords='crear cuenta, registro, uptask, gestión de proyectos'
+            canonical='https://raulqd-uptask.netlify.app/auth/register'
+        />
             <h1 className='text-4xl font-black text-white'>Crear Cuenta</h1>
             <p className='text-2xl font-light text-white mt-5'>
                 Llena el formulario para {''}

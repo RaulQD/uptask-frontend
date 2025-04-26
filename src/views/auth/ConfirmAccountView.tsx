@@ -5,6 +5,7 @@ import { useMutation } from '@tanstack/react-query';
 import { ConfirmToken } from '@/types/index';
 import { confirmAccount } from '@/api/AuthAPI';
 import { toast } from 'react-toastify';
+import { Seo } from '@/components/Seo';
 
 export default function ConfirmAccountView() {
     const [token, setToken] = useState<ConfirmToken['token']>('');
@@ -30,6 +31,12 @@ export default function ConfirmAccountView() {
 
     return (
         <>
+            <Seo 
+                title='Confirmar Cuenta - UpTask'
+                description='Confirma tu cuenta en UpTask y comienza a gestionar tus proyectos de manera eficiente.'
+                keywords='confirmar cuenta, uptask, gestión de proyectos'
+                canonical='https://raulqd-uptask.netlify.app/auth/confirm-account'
+            />
             <h1 className='text-4xl font-black text-white'>
                 Confirma tu Cuenta
             </h1>

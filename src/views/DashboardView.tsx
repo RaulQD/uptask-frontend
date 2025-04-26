@@ -8,6 +8,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { isManager } from '@/utils/policies';
 import DeleteProjectModal from '@/components/projects/DeleteProjectModal';
 import Spinner from '@/components/Spinner';
+import { Seo } from '@/components/Seo';
 
 export default function DashboardView() {
     const location = useLocation();
@@ -27,6 +28,11 @@ export default function DashboardView() {
     if (data && user)
         return (
             <>
+                <Seo
+                    title='Mis Proyectos - UpTask'
+                    description='Gestiona tus proyectos y tareas de manera eficiente con UpTask. Crea, edita y elimina proyectos fácilmente.'
+                    canonical='https://raulqd-uptask.netlify.app'
+                />
                 <h1 className='text-4xl font-bold'>Mis Proyectos</h1>
                 <p className='text-2xl font-normal text-gray-600 my-4'>
                     Maneja y administra tus proyectos

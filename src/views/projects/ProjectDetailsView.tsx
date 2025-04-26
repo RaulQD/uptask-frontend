@@ -9,6 +9,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { isManager } from '@/utils/policies';
 import { useMemo, useState } from 'react';
 import Spinner from '@/components/Spinner';
+import { Seo } from '@/components/Seo';
 
 export default function ProjectDetailsView() {
     const [hideElements, setHideElements] = useState(false);
@@ -34,7 +35,15 @@ export default function ProjectDetailsView() {
     if (data && user)
         return (
             <>
-                <h1 className='text-4xl font-black capitalize'>{data.projectName}</h1>
+                <Seo
+                    title='Detalles del Proyecto - UpTask'
+                    description='Visualiza los detalles de tu proyecto en UpTask, incluyendo tareas y colaboradores.'
+                    keywords='uptask, detalles del proyecto, gestión de proyectos, tareas'
+                    canonical={`https://raulqd-uptask.netlify.app/projects/${projectId}`}
+                />
+                <h1 className='text-4xl font-black capitalize'>
+                    {data.projectName}
+                </h1>
                 <p className='text-2xl font-light text-gray-500 mt-5'>
                     {data.description}
                 </p>
@@ -61,7 +70,10 @@ export default function ProjectDetailsView() {
                 <TaskList tasks={data.tasks} canEdit={canEdit} />
                 <AddTaskModal />
                 <EditTaskData />
-                <TaskModalDetails hideElements={hideElements} setHideElements={setHideElements}/>
+                <TaskModalDetails
+                    hideElements={hideElements}
+                    setHideElements={setHideElements}
+                />
             </>
         );
 }

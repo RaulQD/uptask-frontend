@@ -4,6 +4,7 @@ import { UpdateCurrentUserPasswordForm } from "@/types/index";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { changePassword } from "@/api/ProfileAPI";
+import { Seo } from "@/components/Seo";
 
 export default function ChangePasswordView() {
   const initialValues : UpdateCurrentUserPasswordForm = {
@@ -25,6 +26,12 @@ export default function ChangePasswordView() {
 
   return (
     <>
+      <Seo
+        title='Cambiar Password - UpTask'
+        description='Cambia tu password de acceso a UpTask.'
+        keywords='uptask, cambiar password, gestión de proyectos'
+        canonical='https://raulqd-uptask.netlify.app/profile/password'
+      />
       <div className="mx-auto max-w-3xl">
 
         <h1 className="text-4xl font-black ">Cambiar Password</h1>

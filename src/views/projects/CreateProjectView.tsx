@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import ProjectForm from '@/components/projects/ProjectForm';
 import { ProjectFormData } from '@/types/index';
 import { createProject } from '@/api/ProjectAPI';
+import { Seo } from '@/components/Seo';
 
 export default function CreateProjectView() {
     const navigate = useNavigate();
@@ -35,6 +36,12 @@ export default function CreateProjectView() {
 
     return (
         <>
+            <Seo 
+                title='Crear Proyecto - UpTask'
+                description='Crea un nuevo proyecto en UpTask'
+                keywords='crear proyecto, gestión de proyectos, UpTask'
+                canonical='https://raulqd-uptask.netlify.app/projects/create'
+            />
             <div className='max-w-3xl mx-auto'>
                 <h1 className='text-5xl font-black'>Crear Proyecto</h1>
                 <p className='text-2xl font-light text-gray-500 mt-5'>

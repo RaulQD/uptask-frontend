@@ -5,6 +5,7 @@ import { UserLoginForm } from '@/types/index';
 import ErrorMessage from '@/components/ErrorMessage';
 import { authenticateUser } from '@/api/AuthAPI';
 import { toast } from 'react-toastify';
+import { Seo } from '@/components/Seo';
 
 export default function LoginView() {
     const initialValues: UserLoginForm = {
@@ -32,6 +33,12 @@ export default function LoginView() {
 
     return (
         <>
+            <Seo
+                title='Iniciar Sesión - UpTask'
+                description='Inicia sesión en UpTask y gestiona tus proyectos de manera eficiente.'
+                keywords='iniciar sesión, uptask, gestión de proyectos'
+                canonical='https://raulqd-uptask.netlify.app/auth/login'
+            />
             <h1 className='text-4xl font-black text-white'>Iniciar Sesión</h1>
             <p className='text-2xl font-light text-white mt-4'>
                 Comienza a planear tus proyectos {''}

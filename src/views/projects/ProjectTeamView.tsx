@@ -7,6 +7,7 @@ import AddMemberModal from '@/components/team/AddMemberModal';
 import { getProjectTeam, removeUserFromProject } from '@/api/TeamAPI';
 import { toast } from 'react-toastify';
 import Spinner from '@/components/Spinner';
+import { Seo } from '@/components/Seo';
 
 export default function ProjectTeamView() {
     const navigate = useNavigate();
@@ -41,7 +42,13 @@ export default function ProjectTeamView() {
     if (isError) return <Navigate to={'/404'} />;
     if (data)
         return (
-            <>
+            <>  
+                <Seo 
+                    title='Administrar Equipo - UpTask'
+                    description='Administra el equipo de trabajo para tu proyecto en UpTask.'
+                    keywords='uptask, administrar equipo, gestión de proyectos, colaboradores'
+                    canonical={`https://raulqd-uptask.netlify.app/projects/${projectId}/team`}
+                />
                 <h1 className='text-4xl font-black'>Administrar Equipo</h1>
                 <p className='text-xl font-medium text-gray-500 mt-5'>
                     Administra el equipo de trabajo para este proyecto
