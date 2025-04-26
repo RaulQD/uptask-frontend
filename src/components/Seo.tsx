@@ -51,7 +51,6 @@ export const Seo = ({
         <meta name="twitter:image" content={seo.image} />
         {/*Metadatos adicionales*/} 
         <meta name="author" content={seo.author} />
-        <link rel="canonical" href={seo.url} />        
 
       </Helmet>
     );

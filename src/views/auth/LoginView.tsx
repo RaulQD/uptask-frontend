@@ -46,7 +46,7 @@ export default function LoginView() {
                 className='space-y-4 p-10 mt-10 bg-white'
                 noValidate>
                 <div className='flex flex-col gap-2'>
-                    <label className='font-normal text-xl'>Email</label>
+                    <label className='font-normal'>Correo electronico</label>
 
                     <input
                         id='email'
@@ -67,7 +67,7 @@ export default function LoginView() {
                 </div>
 
                 <div className='flex flex-col gap-2'>
-                    <label className='font-normal text-xl'>Password</label>
+                    <label className='font-normal'>Password</label>
 
                     <input
                         type='password'
@@ -84,7 +84,7 @@ export default function LoginView() {
 
                 <button
                     type='submit'
-                    className='bg-fuchsia-600 hover:bg-fuchsia-700 w-full p-3  text-white font-black  text-xl cursor-pointer'>
+                    className='bg-fuchsia-600 hover:bg-fuchsia-700 w-full p-3  text-white rounded-md font-medium cursor-pointer'>
                     Iniciar Sesión
                 </button>
             </form>
@@ -94,7 +94,7 @@ export default function LoginView() {
                     to={'/auth/register'}
                     className='text-center text-gray-300 font-normal'>
                     ¿No tienes cuenta?{' '}
-                    <span className='text-fuchsia-500 font-medium'>
+                    <span className='text-white font-medium'>
                         Crear una.
                     </span>
                 </Link>
@@ -103,7 +103,7 @@ export default function LoginView() {
                     to={'/auth/forgot-password'}
                     className='text-center text-gray-300 font-normal'>
                     ¿Olvidaste tu contraseña?{' '}
-                    <span className='text-fuchsia-500 font-medium'>
+                    <span className='text-white font-medium'>
                         {' '}
                         Reestablecer.
                     </span>
