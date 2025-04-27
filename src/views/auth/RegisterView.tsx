@@ -40,28 +40,31 @@ export default function RegisterView() {
 
     return (
         <>
-        <Seo 
-            title='Crear Cuenta - UpTask'
-            description='Crea tu cuenta en UpTask y comienza a gestionar tus proyectos de manera eficiente.'
-            keywords='crear cuenta, registro, uptask, gestión de proyectos'
-            canonical='https://raulqd-uptask.netlify.app/auth/register'
-        />
-            <h1 className='text-4xl font-black text-white'>Crear Cuenta</h1>
-            <p className='text-2xl font-light text-white mt-5'>
+            <Seo
+                title='Crear Cuenta - UpTask'
+                description='Crea tu cuenta en UpTask y comienza a gestionar tus proyectos de manera eficiente.'
+                keywords='crear cuenta, registro, uptask, gestión de proyectos'
+                canonical='https://raulqd-uptask.netlify.app/auth/register'
+            />
+            <h1 className='text-3xl sm:text-4xl font-black text-white text-center md:text-left'>
+                Crear Cuenta
+            </h1>
+            <p className='text-xl sm:text-2xl font-light text-white mt-3 sm:mt-5 text-center md:text-left'>
                 Llena el formulario para {''}
-                <span className=' text-fuchsia-500 font-bold'>
+                <span className='text-fuchsia-500 font-bold block md:inline'>
                     {' '}
                     crear tu cuenta
                 </span>
             </p>
-
             <form
                 onSubmit={handleSubmit(handleRegister)}
-                className='space-y-4 p-10 bg-white mt-10'
+                className='space-y-4 p-5 sm:p-8 md:p-10 bg-white mt-6 sm:mt-8 md:mt-10 rounded-md '
                 noValidate>
                 <div className='flex flex-col gap-2'>
-                    <label className='font-normal text-lg' htmlFor='email'>
-                        Correo Electronico
+                    <label
+                        className='font-normal text-gray-700'
+                        htmlFor='email'>
+                        Correo Electrónico
                     </label>
                     <input
                         id='email'
@@ -82,7 +85,9 @@ export default function RegisterView() {
                 </div>
 
                 <div className='flex flex-col gap-2'>
-                    <label className='font-normal text-lg'>Nombre</label>
+                    <label className='font-normal  text-gray-700'>
+                        Nombre
+                    </label>
                     <input
                         type='name'
                         placeholder='Nombre de Registro'
@@ -97,7 +102,9 @@ export default function RegisterView() {
                 </div>
 
                 <div className='flex flex-col gap-2'>
-                    <label className='font-normal text-lg'>Contraseña</label>
+                    <label className='font-normal  text-gray-700'>
+                        Contraseña
+                    </label>
 
                     <input
                         type='password'
@@ -118,7 +125,7 @@ export default function RegisterView() {
                 </div>
 
                 <div className='flex flex-col gap-2'>
-                    <label className='font-normal text-lg'>
+                    <label className='font-normal  text-gray-700'>
                         Repetir Contraseña
                     </label>
 
@@ -142,28 +149,28 @@ export default function RegisterView() {
                     )}
                 </div>
 
-                <input
+                <button
                     type='submit'
-                    value='Registrarme'
-                    className='bg-fuchsia-600 hover:bg-fuchsia-700 w-full p-3  text-white font-black  text-lg cursor-pointer'
-                />
+                    className='bg-fuchsia-600 hover:bg-fuchsia-700 w-full p-2 sm:p-3 text-white font-bold text-base sm:text-lg cursor-pointer rounded-md transition-colors duration-300 mt-4'>
+                    Registrarme
+                </button>
             </form>
 
-            <nav className='mt-10 flex flex-col space-y-4'>
+            <nav className='mt-5 sm:mt-8 md:mt-10 flex flex-col space-y-3 sm:space-y-4'>
                 <Link
                     to={'/auth/login'}
-                    className='text-center text-gray-300 font-normal'>
+                    className='text-center text-gray-300 hover:text-white transition-colors font-normal'>
                     ¿Ya tienes cuenta?{' '}
-                    <span className='text-fuchsia-500 font-medium'>
+                    <span className='text-white font-medium'>
                         Iniciar Sesión.
                     </span>
                 </Link>
 
                 <Link
                     to={'/auth/forgot-password'}
-                    className='text-center text-gray-300 font-normal'>
+                    className='text-center text-gray-300 hover:text-white transition-colors font-normal'>
                     ¿Olvidaste tu contraseña?{' '}
-                    <span className='text-fuchsia-500 font-medium'>
+                    <span className='text-white font-medium'>
                         Reestablecer.
                     </span>
                 </Link>

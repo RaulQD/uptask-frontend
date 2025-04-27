@@ -33,14 +33,16 @@ export default function DashboardView() {
                     description='Gestiona tus proyectos y tareas de manera eficiente con UpTask. Crea, edita y elimina proyectos fácilmente.'
                     canonical='https://raulqd-uptask.netlify.app'
                 />
-                <h1 className='text-4xl font-bold'>Mis Proyectos</h1>
-                <p className='text-2xl font-normal text-gray-600 my-4'>
+                <h1 className='text-2xl sm:text-3xl md:text-4xl font-bold text-center md:text-left'>
+                    Mis Proyectos
+                </h1>
+                <p className='text-lg sm:text-xl md:text-2xl font-normal text-gray-600 my-2 sm:my-3 md:my-4 text-center md:text-left'>
                     Maneja y administra tus proyectos
                 </p>
 
-                <nav className='my-5'>
+                <nav className='my-4 sm:my-5 flex justify-center md:justify-start'>
                     <Link
-                        className=' bg-purple-600 hover:bg-purple-700 px-10 py-3 text-white font-bold cursor-pointer transition-colors rounded-md inline-block'
+                        className='bg-purple-600 hover:bg-purple-700 px-6 sm:px-8 md:px-10 py-2 sm:py-3 text-white font-bold cursor-pointer transition-colors rounded-md text-sm sm:text-base'
                         to='/projects/create'>
                         Nuevo Proyecto
                     </Link>

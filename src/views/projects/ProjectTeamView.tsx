@@ -49,12 +49,12 @@ export default function ProjectTeamView() {
                     keywords='uptask, administrar equipo, gestión de proyectos, colaboradores'
                     canonical={`https://raulqd-uptask.netlify.app/projects/${projectId}/team`}
                 />
-                <h1 className='text-4xl font-black'>Administrar Equipo</h1>
-                <p className='text-xl font-medium text-gray-500 mt-5'>
+                <h1 className='text-3xl sm:text-4xl md:text-5xl font-black text-center sm:text-left'>Administrar Equipo</h1>
+                <p className='text-lg sm:text-xl md:text-2xl font-light text-gray-500 mt-3 sm:mt-5 text-center sm:text-left'>
                     Administra el equipo de trabajo para este proyecto
                 </p>
 
-                <nav className='my-5 flex gap-3'>
+                <nav className='my-4 sm:my-5 flex flex-col sm:flex-row gap-3 justify-center md:justify-start'>
                     <button
                         type='button'
                         className='bg-purple-400 hover:bg-purple-500 px-10 py-3 text-white text-lg font-bold cursor-pointer transition-colors rounded-md'
@@ -66,12 +66,12 @@ export default function ProjectTeamView() {
 
                     <Link
                         to={`/projects/${projectId}`}
-                        className='bg-fuchsia-600 hover:bg-fuchsia-700 px-10 py-3 text-white text-lg font-bold cursor-pointer transition-colors rounded-md'>
+                        className='bg-fuchsia-600 hover:bg-fuchsia-700 px-10 py-3 text-white text-lg font-bold cursor-pointer transition-colors rounded-md text-center'>
                         Volver a Proyecto
                     </Link>
                 </nav>
 
-                <h2 className='text-3xl font-black mt-8 mb-5'>
+                <h2 className='text-3xl font-black text-center sm:text-left my-8'>
                     Miembros actuales
                 </h2>
                 {data.length ? (

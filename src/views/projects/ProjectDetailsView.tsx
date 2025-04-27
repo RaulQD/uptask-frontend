@@ -41,15 +41,14 @@ export default function ProjectDetailsView() {
                     keywords='uptask, detalles del proyecto, gestión de proyectos, tareas'
                     canonical={`https://raulqd-uptask.netlify.app/projects/${projectId}`}
                 />
-                <h1 className='text-4xl font-black capitalize'>
+                <h1 className='text-2xl sm:text-3xl md:text-4xl font-black capitalize text-center md:text-left'>
                     {data.projectName}
                 </h1>
-                <p className='text-2xl font-light text-gray-500 mt-5'>
+                <p className='text-lg sm:text-xl md:text-2xl font-light text-gray-500 mt-3 sm:mt-4 md:mt-5 text-center md:text-left'>
                     {data.description}
                 </p>
-
                 {isManager(data.manager, user._id) && (
-                    <nav className='my-5 flex flex-col md:flex-row gap-3'>
+                    <nav className='my-4 sm:my-5 flex flex-col sm:flex-row gap-3 justify-center md:justify-start'>
                         <button
                             type='button'
                             className='bg-purple-400 hover:bg-purple-500 px-10 py-3 text-white text-lg font-bold cursor-pointer transition-colors rounded-md'

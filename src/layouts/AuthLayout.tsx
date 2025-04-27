@@ -11,8 +11,8 @@ export default function AuthLayout() {
             description='Inicia sesión en tu cuenta de UpTask para gestionar tus proyectos y tareas de manera eficiente.'
             keywords='uptask, gestión de proyectos, tareas, iniciar sesión'
         />
-            <div className='bg-gray-800 '>
-                <div className='py-10 mx-auto w-[450px]'>
+            <div className='bg-gray-800 min-h-screen flex items-center justify-center px-4 py-12'>
+                <div className='w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg'>
                     <Logo />
                     <div className='mt-[60px]'>
                         <Outlet />
