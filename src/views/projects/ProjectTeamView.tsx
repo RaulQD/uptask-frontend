@@ -42,14 +42,16 @@ export default function ProjectTeamView() {
     if (isError) return <Navigate to={'/404'} />;
     if (data)
         return (
-            <>  
-                <Seo 
+            <>
+                <Seo
                     title='Administrar Equipo - UpTask'
                     description='Administra el equipo de trabajo para tu proyecto en UpTask.'
                     keywords='uptask, administrar equipo, gestión de proyectos, colaboradores'
                     canonical={`https://raulqd-uptask.netlify.app/projects/${projectId}/team`}
                 />
-                <h1 className='text-3xl sm:text-4xl md:text-5xl font-black text-center sm:text-left'>Administrar Equipo</h1>
+                <h1 className='text-2xl sm:text-3xl md:text-4xl font-black text-center sm:text-left'>
+                    Administrar equipo
+                </h1>
                 <p className='text-lg sm:text-xl md:text-2xl font-light text-gray-500 mt-3 sm:mt-5 text-center sm:text-left'>
                     Administra el equipo de trabajo para este proyecto
                 </p>
@@ -57,7 +59,7 @@ export default function ProjectTeamView() {
                 <nav className='my-4 sm:my-5 flex flex-col sm:flex-row gap-3 justify-center md:justify-start'>
                     <button
                         type='button'
-                        className='bg-purple-400 hover:bg-purple-500 px-10 py-3 text-white text-lg font-bold cursor-pointer transition-colors rounded-md'
+                        className='bg-purple-600 hover:bg-purple-700 px-6 sm:px-8 md:px-10 py-3 text-white font-bold cursor-pointer transition-colors rounded-md text-base'
                         onClick={() =>
                             navigate(location.pathname + '?addMember=true')
                         }>
@@ -66,24 +68,22 @@ export default function ProjectTeamView() {
 
                     <Link
                         to={`/projects/${projectId}`}
-                        className='bg-fuchsia-600 hover:bg-fuchsia-700 px-10 py-3 text-white text-lg font-bold cursor-pointer transition-colors rounded-md text-center'>
+                        className='bg-fuchsia-600 hover:bg-fuchsia-700 px-6 sm:px-8 md:px-10 py-3 text-white font-bold cursor-pointer transition-colors rounded-md text-base text-center'>
                         Volver a Proyecto
                     </Link>
                 </nav>
 
-                <h2 className='text-3xl font-black text-center sm:text-left my-8'>
+                <h2 className=' text-xl md:text-2xl lg:text-3xl font-black text-center sm:text-left my-8'>
                     Miembros actuales
                 </h2>
                 {data.length ? (
                     <ul className='grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3'>
                         {data?.map((member) => (
-                            <li
-                                key={member._id}
-                                >
+                            <li key={member._id}>
                                 <div className='flex justify-between items-start gap-x-6 px-5 py-5 border-gray-100 bg-white shadow-md rounded-md'>
                                     <div className='flex min-w-0 gap-x-4'>
                                         <div className='min-w-0 flex-auto space-y-2'>
-                                            <p className='text-2xl font-black text-gray-600'>
+                                            <p className='text-lg font-black text-gray-600'>
                                                 {member.name}
                                             </p>
                                             <p className='text-sm text-gray-400'>

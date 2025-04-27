@@ -84,7 +84,7 @@ export default function AddTaskModal() {
                                 leave='ease-in duration-200'
                                 leaveFrom='opacity-100 scale-100'
                                 leaveTo='opacity-0 scale-95'>
-                                <Dialog.Panel className='w-full max-w-4xl transform overflow-hidden rounded-2xl bg-white text-left align-middle shadow-xl transition-all p-8 md:p-12 lg:p-16 mx-4 sm:mx-auto'>
+                                <Dialog.Panel className='w-full max-w-4xl transform overflow-hidden rounded-2xl bg-white text-left align-middle shadow-xl transition-all p-6 md:p-12 lg:p-16 '>
                                     <Dialog.Title
                                         as='h3'
                                         className='font-black text-2xl sm:text-3xl text-center sm:text-left'>
@@ -111,7 +111,7 @@ export default function AddTaskModal() {
 
                                         <button
                                             type='submit'
-                                            className='bg-fuchsia-600 hover:bg-fuchsia-700 w-full p-2 sm:p-3 text-white uppercase font-bold cursor-pointer transition-colors rounded-md mt-5'>
+                                            className='bg-fuchsia-600 hover:bg-fuchsia-700 w-full p-2 sm:p-3 text-white font-bold cursor-pointer transition-colors rounded-md mt-5'>
                                             Guardar tarea
                                         </button>
                                     </form>

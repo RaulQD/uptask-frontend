@@ -102,7 +102,9 @@ export default function SubTasksList({ subtask }: subTaskProps) {
     return (
         <ul className='mb-2'>
             {subtask.map((item) => (
-                <li key={item._id} className='flex gap-2 items-start '>
+                <li
+                    key={item._id}
+                    className='flex gap-2 items-start mb-1 sm:mb-0.5'>
                     <input
                         type='checkbox'
                         defaultChecked={item.completed}
@@ -116,7 +118,7 @@ export default function SubTasksList({ subtask }: subTaskProps) {
                     />
                     <div className='w-full'>
                         {editingSubTask === item._id ? (
-                            <div className='bg-[#E4E6EA] py-3 px-2 rounded-xl w-full'>
+                            <div className='bg-[#E4E6EA] py-2 sm:py-3 px-2 rounded-lg sm:rounded-xl w-full'>
                                 <UpdateSubTask
                                     subtask={item}
                                     setEditingSubTask={setEditingSubTask}
@@ -124,7 +126,7 @@ export default function SubTasksList({ subtask }: subTaskProps) {
                             </div>
                         ) : (
                             <div
-                                className='group hover:bg-[#E4E6EA] py-1.5 px-2  rounded-xl flex items-center justify-between w-full transition-colors cursor-pointer'
+                                className='group hover:bg-[#E4E6EA] py-1 sm:py-1.5 px-1.5 sm:px-2 rounded-lg sm:rounded-xl flex items-center justify-between w-full transition-colors cursor-pointer'
                                 onClick={() => handleShowForm(item._id)}>
                                 <p
                                     className={`${

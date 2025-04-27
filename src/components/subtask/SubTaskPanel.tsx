@@ -98,12 +98,12 @@ export default function SubTaskPanel({
                     </button>
                 ) : (
                     <>
-                        <div className='flex items-center justify-between mb-3'>
-                            <h3 className='font-semibold  text-slate-600 flex items-center gap-2'>
+                        <div className='flex flex-col sm:flex-row items-start sm:items-center justify-between mb-3 gap-2'>
+                            <h3 className='font-semibold text-slate-600 flex items-start gap-2'>
                                 <PencilSquareIcon className='w-5 h-5' />
                                 Subtarea
                             </h3>
-                            <div className='flex gap-2 '>
+                            <div className='flex flex-wrap gap-2 w-full sm:w-auto justify-end'>
                                 {hasCompleted && (
                                     <button
                                         className='text-sm bg-[#d0d4db] text-[#2D3F5E] font-medium px-3 py-2 rounded hover:bg-[#c4c8d4] transition-colors'
@@ -135,7 +135,7 @@ export default function SubTaskPanel({
                         ) : (
                             <SubTasksList subtask={visibleSubTasks!} />
                         )}
-                        <div className='pl-8'>
+                        <div className='md:pl-8'>
                             {showForm ? (
                                 <CreateSubTasks setShowForm={setShowForm} />
                             ) : (

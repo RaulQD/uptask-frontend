@@ -51,7 +51,7 @@ export default function ProjectDetailsView() {
                     <nav className='my-4 sm:my-5 flex flex-col sm:flex-row gap-3 justify-center md:justify-start'>
                         <button
                             type='button'
-                            className='bg-purple-400 hover:bg-purple-500 px-10 py-3 text-white text-lg font-bold cursor-pointer transition-colors rounded-md'
+                            className='bg-purple-600 hover:bg-purple-700 px-6 sm:px-8 md:px-10 p-2 md:py-3 text-white font-bold cursor-pointer transition-colors rounded-md text-base'
                             onClick={() =>
                                 navigate(location.pathname + '?newTask=true')
                             }>
@@ -60,7 +60,7 @@ export default function ProjectDetailsView() {
 
                         <Link
                             to={'team'}
-                            className='bg-fuchsia-600 hover:bg-fuchsia-700 px-10 py-3 text-white text-lg font-bold cursor-pointer transition-colors rounded-md text-center'>
+                            className='bg-fuchsia-600 hover:bg-fuchsia-7 px-6 sm:px-8 md:px-10 p-2 md:py-3 text-white font-bold cursor-pointer transition-colors rounded-md text-base text-center'>
                             Colaboradores
                         </Link>
                     </nav>
