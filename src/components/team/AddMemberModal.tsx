@@ -39,10 +39,10 @@ export default function AddMemberModal() {
                                 leaveFrom="opacity-100 scale-100"
                                 leaveTo="opacity-0 scale-95"
                             >
-                                <Dialog.Panel className="w-full max-w-[700px] transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                                <Dialog.Panel className="w-full max-w-[500px] transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
                                     <Dialog.Title
                                         as="h1"
-                                        className="text-xl font-normal"
+                                        className="text-lg md:text-xl font-normal"
                                     >
                                        Invitar al Espacio de trabajo
                                     </Dialog.Title>

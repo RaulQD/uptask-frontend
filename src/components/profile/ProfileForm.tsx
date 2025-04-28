@@ -30,25 +30,27 @@ export default function ProfileForm({ data }: ProfileFormProps) {
 
     return (
         <>
-            <div className='mx-auto max-w-3xl g'>
-                <h1 className='text-4xl font-black '>Mi Perfil</h1>
-                <p className='text-xl font-light text-gray-500 mt-5'>
+            <div className='mx-auto max-w-3xl '>
+                <h1 className='text-2xl sm:text-3xl md:text-4xl font-black text-center sm:text-left'>
+                    Mi Perfil
+                </h1>
+                <p className='text-base sm:text-lg font-light text-gray-500 mt-3 sm:mt-5 text-center sm:text-left'>
                     Aquí puedes actualizar tu información
                 </p>
 
                 <form
                     onSubmit={handleSubmit(handleEditProfile)}
-                    className=' mt-8 space-y-5  bg-white shadow-lg p-10 rounded-l'
+                    className='mt-6 sm:mt-8 space-y-4 sm:space-y-5 bg-white shadow-lg p-5 sm:p-8 md:p-10 rounded-lg'
                     noValidate>
-                    <div className='mb-5 space-y-3'>
-                        <label className='text-sm  font-bold' htmlFor='name'>
+                    <div className='mb-4 sm:mb-5 space-y-2 sm:space-y-3'>
+                        <label className='text-sm font-medium text-slate-700' htmlFor='name'>
                             Nombre
                         </label>
                         <input
                             id='name'
                             type='text'
                             placeholder='Tu Nombre'
-                            className='w-full p-3  border border-gray-200 rounded-md text-sm'
+                            className='w-full p-2 md:p-3 border border-gray-200 rounded-md text-sm'
                             {...register('name', {
                                 required: 'Nombre de usuario es obligatoro',
                             })}
@@ -58,9 +60,9 @@ export default function ProfileForm({ data }: ProfileFormProps) {
                         )}
                     </div>
 
-                    <div className='mb-5 space-y-3'>
+                    <div className='mb-4 sm:mb-5 space-y-2 sm:space-y-3'>
                         <label
-                            className='text-sm  font-bold'
+                            className='text-sm font-medium text-slate-700'
                             htmlFor='password'>
                             Correo electronico
                         </label>
@@ -68,12 +70,12 @@ export default function ProfileForm({ data }: ProfileFormProps) {
                             id='text'
                             type='email'
                             placeholder='ejemplo@ejemplo.com'
-                            className='w-full p-3  border border-gray-200 rounded-md text-sm'
+                            className='w-full p-2 md:p-3 border border-gray-200 rounded-md text-sm'
                             {...register('email', {
-                                required: 'EL e-mail es obligatorio',
+                                required: 'El correo electronico es obligatorio',
                                 pattern: {
                                     value: /\S+@\S+\.\S+/,
-                                    message: 'E-mail no válido',
+                                    message: 'Correo electronico no válido.',
                                 },
                             })}
                         />

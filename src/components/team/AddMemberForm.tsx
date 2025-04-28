@@ -52,7 +52,7 @@ export default function AddMemberForm() {
                 onSubmit={handleSubmit(handleSearchUser)}
                 noValidate>
                 <div className='flex flex-col gap-3'>
-                    <label className='font-normal ' htmlFor='name'>
+                    <label className='font-normal text-slate-700 ' htmlFor='name'>
                         Correo electronico del usuario
                     </label>
                     <input
@@ -60,7 +60,7 @@ export default function AddMemberForm() {
                         type='text'
                         autoComplete='off'
                         placeholder='Correo electronico o nombre'
-                        className='w-full p-3 border-gray-300 border rounded-md outline-none'
+                        className='w-full p-2 border-gray-300 border rounded-md'
                         {...register('query')}
                     />
                     {errors.query && (
